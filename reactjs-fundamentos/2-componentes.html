@@ -18,6 +18,24 @@
 
     <!-- extensões recomendadas: Biome(formatador de codigo) você pode configura-lo como formatador padrão e formatar ao salvar em settings  -->
     <!-- extensões recomendadas: Live preview, roda um preview do código direto do vscode como o live server  -->
-    <script type="text/babel"></script>
+    <script type="text/babel">
+        function Button () {
+            return (
+                <button className="px-3 py-2 bg-purple-400 rounded text-white">Botão</button>
+            )
+        }
+
+        function App () {
+            return (
+                <main className="p-3 flex gap-2">
+                    <Button/>
+                </main>
+            )
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            <App />
+        )
+    </script>
 </body>
 </html>
