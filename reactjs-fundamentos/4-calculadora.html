@@ -4,6 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
   <title>React - fundamentos</title>
   <style type="text/tailwindcss">
     @theme {
@@ -32,7 +35,7 @@
   </style>
 </head>
 
-<body>
+<body className="text-(--text) font-(--font-sans)">
   <!-- extensão recomendada: figma, para auxiliar no desenvolvimento do layout -->
   <div id="root"></div>
 
@@ -46,7 +49,43 @@
 
   <!-- extensões recomendadas: Biome(formatador de codigo) você pode configura-lo como formatador padrão e formatar ao salvar em settings  -->
   <!-- extensões recomendadas: Live preview, roda um preview do código direto do vscode como o live server  -->
-  <script type="text/babel"></script>
+  <script type="text/babel">
+    const textVariants = {
+      default: 'text-xl',
+      // com o () ele busca o valor da variavel e aplica ao elemento
+      muted: 'text-xl text-(--text-secondary)',
+      heading: 'text-2xl',
+      blast: 'text-3xl'
+    }
+
+    // usando 'as' define a tag padrão que será criada pelo React.createElement
+    function Text({
+      as = 'span',
+      variant = 'default',
+      className,
+      children,
+      ...props
+    }) {
+      return React.createElement(
+        as,
+        {
+          className: `${textVariants[variant]} ${className}`,
+          ...props
+        },
+        children
+      )
+    }
+
+    function App() {
+      return (
+        <main className="py-28 px-4">
+          <Text variant='muted'>Hello</Text>
+        </main>
+      )
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+  </script>
 </body>
 
 </html>
