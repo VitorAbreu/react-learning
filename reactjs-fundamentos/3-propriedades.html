@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React - fundamentos</title>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- extensão recomendada: Tailwind CSS IntelliSense, para facilitar o uso do tailwind -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    
+    <!-- você pode usar o react em versões mais antigas através de tags script para coisas simples -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- extensões recomendadas: Biome(formatador de codigo) você pode configura-lo como formatador padrão e formatar ao salvar em settings  -->
+    <!-- extensões recomendadas: Live preview, roda um preview do código direto do vscode como o live server  -->
+    <script type="text/babel">
+        const buttonVariants = {
+            default: 'bg-purple-400',
+            primary: 'bg-gray-400'
+        }
+
+        // forma como passa valores para dentro do component react, obs: children e key são palavras reservadas
+        // usa-se o destructuring
+        // o className pode ser concatenado com classes já usadas pelo component basta chama-lá no destructuring e usar no template string
+        function Button ({variant ='default', className, children, ...props}) {
+            return (
+                <button
+                    className={`px-3 py-2 rounded text-white ${buttonVariants[variant]} ${className}`}
+                    {...props}
+                >
+                    {children}
+                </button>
+            )
+        }
+
+        // usando o props do javascript que seria todas as propriedades padrões do elemento html
+        function Button2 (props) {
+            return (
+                <button className="px-3 py-2 bg-purple-400 rounded text-white">
+                    {props.children}
+                </button>
+            )
+        }
+
+        function App () {
+            return (
+                <main className="p-3 flex gap-2">
+                    <Button title='testing title via undefined props' className="mr-14">Botão inicial</Button>
+                    <Button variant='primary'>Botão inicial</Button>
+                    <Button2>usando props</Button2>
+                </main>
+            )
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            <App />
+        )
+    </script>
+</body>
+</html>
