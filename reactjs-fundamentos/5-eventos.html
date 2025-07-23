@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React - fundamentos</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- você pode usar o react em versões mais antigas através de tags script para coisas simples -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- extensões recomendadas: Biome(formatador de codigo) você pode configura-lo como formatador padrão e formatar ao salvar em settings  -->
+    <!-- extensões recomendadas: Live preview, roda um preview do código direto do vscode como o live server  -->
+    <script type="text/babel">
+      // Declaração do componente
+      function Alert1() {
+        // Declaração da função com evento
+        function handleAlertClick(event) {
+          console.log(event);
+          alert("Uma mensagem de alerta!");
+        }
+
+        // retornando o template do component chamando a função através do envento onclick
+        return <button onClick={handleAlertClick}>Mostrar Alerta</button>;
+      }
+
+      function Alert2() {
+        function handleAlertClick(msg) {
+          console.log(msg);
+          alert(msg);
+        }
+
+        return (
+          // explicitamente passando um valor como parâmetro a função
+          <button onClick={() => handleAlertClick("aloalo")}>
+            Mostrar Alerta 2
+          </button>
+        );
+      }
+
+      function Alert3() {
+        function handleAlertClick(event) {
+          // recebendo evento de click e através dele pegando o elemento anterior (input)
+          alert(event.target.previousSibling.value);
+        }
+
+        function handleInputChange(event) {
+          console.log(event.target.value);
+        }
+
+        return (
+          <div>
+            <input
+              type="text"
+              placeholder="Digite algo..."
+              onChange={handleInputChange}
+            />
+            <button onClick={handleAlertClick}>Mostrar Alerta 3</button>
+          </div>
+        );
+      }
+
+      function App() {
+        return (
+          <main className="p-3">
+            <Alert1 />
+            <Alert2 />
+            <hr />
+            <Alert3 />
+          </main>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
