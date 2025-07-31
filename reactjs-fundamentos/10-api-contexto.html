@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React - fundamentos</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- você pode usar o react em versões mais antigas através de tags script para coisas simples -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- extensões recomendadas: Biome(formatador de codigo) você pode configura-lo como formatador padrão e formatar ao salvar em settings  -->
+    <!-- extensões recomendadas: Live preview, roda um preview do código direto do vscode como o live server  -->
+    <script type="text/babel">
+      // criação do contexto
+      const CounterContext = React.createContext();
+
+      // Criação do component wrapper do contexto
+      function CounterProvider({ children }) {
+        // criação do state
+        const [savedCounts, setSavedCounts] = React.useState([]);
+
+        // modificação do state
+        function saveCount(count) {
+          setSavedCounts((prev) => [...prev, count]);
+        }
+
+        return (
+          // passando o state para o contexto
+          <CounterContext.Provider value={{ savedCounts, saveCount }}>
+            {children}
+          </CounterContext.Provider>
+        );
+      }
+      function Counter() {
+        // definição da variavel inicial counter e seu modificador setCounter que é uma tupla
+        // criada através do useState;
+        const [counter, setCounter] = React.useState(0);
+
+        // recupera o valor do contexto
+        const { saveCount, savedCounts } = React.useContext(CounterContext);
+        // atráves do virtual DOM e do use state o react sabe exatamente onde atualizar o valor
+        return (
+          <>
+            <p>
+              Contador: {counter} - Último valor salvo:
+              {savedCounts[savedCounts.length - 1]}
+            </p>
+            <button onClick={() => setCounter(10)}>Atualizar</button>
+            <button onClick={() => setCounter((prevValue) => prevValue + 1)}>
+              Incrementar
+            </button>
+            <button onClick={() => setCounter((prevValue) => prevValue - 1)}>
+              Decrementar
+            </button>
+            <button onClick={() => saveCount(counter)}>Salvar</button>
+          </>
+        );
+      }
+
+      function CounterList() {
+        const { savedCounts } = React.useContext(CounterContext);
+
+        return (
+          <div>
+            <h2>Valores salvos</h2>
+            <ul>
+              {savedCounts.map((value, index) => (
+                <li key={`item-${index}`}>{value}</li>
+              ))}
+            </ul>
+          </div>
+        );
+      }
+
+      function App() {
+        // o provider precisa encapsular o componente que o usará
+        return (
+          <main>
+            <CounterProvider>
+              <Counter />
+              <hr />
+              <CounterList />
+            </CounterProvider>
+          </main>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
