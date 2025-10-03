@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React - fundamentos</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- extensão recomendada: Tailwind CSS IntelliSense, para facilitar o uso do tailwind -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+    <!-- você pode usar o react em versões mais antigas através de tags script para coisas simples -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- extensões recomendadas: Biome(formatador de codigo) você pode configura-lo como formatador padrão e formatar ao salvar em settings  -->
+    <!-- extensões recomendadas: Live preview, roda um preview do código direto do vscode como o live server  -->
+    <script type="text/babel">
+      const users = [
+        { id: 1, name: "millena" },
+        { id: 2, name: "toby" },
+        { id: 3, name: "pam" },
+        { id: 4, name: "dwigth" },
+        { id: 5, name: "jim" },
+      ];
+      function App() {
+        const [search, setSearch] = React.useState("");
+        const [count, setCount] = React.useState(0);
+
+        console.log("re render");
+
+        const filteredUsers = React.useMemo(() => {
+          console.log("Filtrando dados");
+          return users.filter((user) =>
+            user.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+          );
+        }, [search]);
+
+        return (
+          <main className="p-3">
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Buscar usuários"
+            />
+            <button onClick={() => setCount(count + 1)}>
+              re-render: {count}
+            </button>
+
+            <ul>
+              {filteredUsers.map((user) => (
+                <li key={user.id}>{user.name}</li>
+              ))}
+            </ul>
+          </main>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
